@@ -14,7 +14,10 @@ RUN apk update && \
     gcloud components install kubectl && \
     gcloud components install gsutil && \
     gcloud components install alpha && \
-    gcloud components install beta
+    gcloud components install beta && \
+    ln -s /google-cloud-sdk/bin/gcloud /usr/local/bin/ && \
+    ln -s /google-cloud-sdk/bin/gutils /usr/local/bin/ && \
+    ln -s /google-cloud-sdk/bin/kubectl /usr/local/bin/
 
 ## Install node 8
 ENV NODE_VERSION=v8.14.0 NPM_VERSION=6 YARN_VERSION=latest
@@ -63,3 +66,7 @@ RUN apk add --no-cache curl make gcc g++ python linux-headers binutils-gold gnup
   rm -rf ${RM_DIRS} /node-${NODE_VERSION}* /usr/share/man /tmp/* /var/cache/apk/* \
     /root/.npm /root/.node-gyp /root/.gnupg /usr/lib/node_modules/npm/man \
     /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html /usr/lib/node_modules/npm/scripts
+
+## Add required dependencies and create folders
+RUN apk add --no-cache openssh-client git coreutils curl python git jq && \
+    mkdir /root/.ssh/
